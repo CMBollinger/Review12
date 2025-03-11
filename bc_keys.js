@@ -27,31 +27,34 @@
 
 */
 
-window.addEventListener("onload", makeKeyStyles);
-window.addEventListener("onload", findKeyWords);
+window.addEventListener("load", makeKeyStyles);
+window.addEventListener("load", findKeyWords);
 
 function findKeyWords() {
 var aside = document.createElement("aside");
-document.getElementsByTagName("aside").setAttribute("id", "keywords")
-var ol = document.createElement("ol")
+aside.setAttribute("id", "keywords")
+document.body.append(aside);
+aside.innerHTML += "<h1>Keyword List</h1>";
+var ol = document.createElement("ol");
 aside.appendChild(ol);
 var keyWordElems = document.querySelectorAll("dfn");
 var keyWords = Array.from(keyWordElems);
-for (i=0; i< keyWordElems; i++) {
-   keyWords[i] = keyWordElems[i];
-   var linkID = replaceWS(keyWords[i])
-   keyWordElems[i].setAttribute("id","keyword" + linkID);
+keyWords.sort();
+for (var i=0; i< keyWordsElems.length; i++) {
+   keyWords[i] = keyWordElems[i].textContent;
+   var linkID = replaceWS(keyWords[i]);
+   keyWordElems[i].setAttribute("id", "keyword" + linkID);
 }
-   keyWords.sort();
+for (var i=0; i< keyWords.length; i++) {
+   var keyWordListItem = document.createElement("li");
+   var keyWordLink = document.createElement("a");
+   var keyWordList = document.createElement
+   keyWordLink.innerHTML = keyWords[i].textContent;
+   var linkID;
+   keyWordLink.setAttribute("href", "#keyword" +linkID);
+}
+}
 
-   for (i=0; i < keyWords; i++) {
-      var keyWordListItem = document.createElement("li");
-      var keyWordLink = document.createElement("a");
-      keyWordLink[i].innerHTML(keyWords[i]);
-      linkID[i];
-      keyWordLink.setAttribute("href", "#keyword" + linkID[i]);
-   }
-}
 
 function makeKeyStyles() {
 
