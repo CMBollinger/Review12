@@ -26,38 +26,93 @@
       characters with the _ character.
 
 */
-
-window.addEventListener("load", makeKeyStyles);
 window.addEventListener("load", findKeyWords);
+window.addEventListener("load", makeKeyStyles);
+
 
 function findKeyWords() {
-var aside = document.createElement("aside");
-aside.setAttribute("id", "keywords")
-document.body.append(aside);
-aside.innerHTML += "<h1>Keyword List</h1>";
-var ol = document.createElement("ol");
-aside.appendChild(ol);
-var keyWordElems = document.querySelectorAll("dfn");
-var keyWords = Array.from(keyWordElems);
-keyWords.sort();
-for (var i=0; i< keyWordsElems.length; i++) {
+//Create aside element for the keyword list
+var keyWordBox = document.createElement("aside");
+keyWordBox.setAttribute("id", "keywords");
+var keyWordTitle = document.createElement("h1");
+keyWordTitle.innerHTML = "Keyword List";
+keyWordBox.appendChild(keyWordTitle);
+
+//Place the keywords in an ordered list
+var keyWordList = document.createElement("ol");
+keyWordBox.appendChild(keyWordList);
+
+//Locate all of the keywords in the source document
+var keyWordElems = document.querySelectorAll("article#doc dfn");
+var keyWords = new Array(keyWordElems.length);
+for (var i=0; i < keyWordElems.length; i++){
    keyWords[i] = keyWordElems[i].textContent;
    var linkID = replaceWS(keyWords[i]);
-   keyWordElems[i].setAttribute("id", "keyword" + linkID);
+   keyWordElems[i].setAttribute("id", "keyword_" + linkID);
 }
-for (var i=0; i< keyWords.length; i++) {
+
+//Sort the keywords in alphabetical order
+keyWords.sort();
+
+for (var i=0; i < keyWords.length; i++){
    var keyWordListItem = document.createElement("li");
    var keyWordLink = document.createElement("a");
-   var keyWordList = document.createElement
-   keyWordLink.innerHTML = keyWords[i].textContent;
-   var linkID;
-   keyWordLink.setAttribute("href", "#keyword" +linkID);
+   keyWordLink.innerHTML = keyWords[i];
+   var linkID = replaceWS(keyWords[i]);
+   keyWordLink.setAttribute("href", "#" + "keyword_" + linkID);
+   keyWordListItem.appendChild(keyWordLink);
+   keyWordList.appendChild(keyWordListItem);
 }
+
+   //Append the keyword box to the document
+var historyDoc = document.getElementById("doc");
+historyDoc.insertBefore(keyWordBox, historyDoc.firstChild);
 }
+
+
+
+
+
+
 
 
 function makeKeyStyles() {
+var keyStyles = document.createElement("style");
+document.head.appendChild(keyStyles);
 
+   //Add style rules to the embedded style sheet 
+   document.styleSheets[document.styleSheets.length-1].insertRule(
+      "aside#keywords {\
+         border: 3px solid rgb(101, 101, 101); \
+         float: right; \
+         margin: 20px 0px 20px 20px; \
+         padding: 10px; \
+         width: 320px; \
+      }", 0);
+      
+      document.styleSheets[document.styleSheets.length-1].insertRule(
+         "aside#keywords h1 {\
+            font-size: 2em;\
+            margin: 5px;\
+            text-align: center; \
+         }", 1);
+      
+      document.styleSheets[document.styleSheets.length-1].insertRule(
+         "aside#keywords ol{\
+            margin-left: 20px;\
+            font-size: 1.2em;\
+         }", 2);
+      
+        document.styleSheets[document.styleSheets.length-1].insertRule(
+         "aside#keywords ol li {\
+            line-height: 1.5em;\
+         }", 3);
+      
+         document.styleSheets[document.styleSheets.length-1].insertRule(
+            "aside#keywords ol li a {\
+               color: rgb(101,101,101);\
+               text-decoration: none;\
+            }" , 4);
 }
 
 
